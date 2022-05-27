@@ -4,7 +4,7 @@ pipeline {
     agent none
 
     environment {
-        GIT_URL = 'https://github.com/thedevopsstore/CICD-Pipelines.git'
+        GIT_URL = 'https://github.com/thedevopsstore/jenkins-pipelines.git'
 
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
@@ -51,6 +51,8 @@ pipeline {
                     export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
                     aws eks --region us-east-1 update-kubeconfig --name eks-cluster
                     kubectl apply -f manifests
+                    
+                    '''
             }
         }
         
