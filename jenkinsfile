@@ -48,7 +48,7 @@ pipeline {
         stage("create kubeconfig"){
             steps{
                 sh '''
-                    echo $AWS_ACCESS_KEY_ID
+                    echo $BUILD_NUMBER
                     export KUBECONFIG=/tmp/config
                     aws eks --region us-east-2 update-kubeconfig --name eks-cluster
                     kubectl apply -f manifests
