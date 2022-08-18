@@ -43,6 +43,7 @@ pipeline {
                 app.push()
             }
         }
+        }
 
         stage("create kubeconfig"){
             steps{
