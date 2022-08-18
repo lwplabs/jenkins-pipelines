@@ -41,7 +41,7 @@ pipeline {
         stage("docker push"){
             steps{
                 sh '''
-                docker push lwplapbs/go-redis-app+=:$BUILD_NUMBER
+                docker push lwplapbs/go-redis-app + ":${BUILD_NUMBER}"
                 '''
             }
         }
