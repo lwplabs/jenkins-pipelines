@@ -52,6 +52,7 @@ pipeline {
                     export KUBECONFIG=/tmp/config
                     aws eks --region us-east-2 update-kubeconfig --name eks-cluster
                     kubectl apply -f manifests
+                    kubectl set image -f go-redis-app.yml go-redis-app=lwplapbs/go-redis-app:${BUILD_NUMBER}
 
                     '''
             }
