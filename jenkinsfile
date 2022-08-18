@@ -5,6 +5,9 @@ pipeline {
 
     environment {
         GIT_URL = 'https://github.com/thedevopsstore/jenkins-pipelines.git'
+         AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+         DOCKERHUB = credentials('docker_creds')
 
     }
 
@@ -12,7 +15,9 @@ pipeline {
 
         stage("clone code"){
             steps{
-                git branch: "main", url: "$GIT_URL"
+                cleanWs()
+                checkout scm
+                stash 'source'
             }
         }
 
@@ -27,7 +32,7 @@ pipeline {
         stage("docker login"){
             steps{
                 sh '''
-                    docker login -u lwplapbs -p 83ce5984-292c-403d-9879-71ae9ba4b73a
+                    docker login -u $DOCKERHUB_USR -p $DOCKERHUB_PSW
 
                     '''
             }
@@ -44,8 +49,9 @@ pipeline {
         stage("create kubeconfig"){
             steps{
                 sh '''
+                    echo $AWS_ACCESS_KEY_ID
                     export KUBECONFIG=/tmp/config
-                    aws eks --region us-east-1 update-kubeconfig --name eks-cluster
+                    aws eks --region us-east-2 update-kubeconfig --name eks-cluster
                     kubectl apply -f manifests
 
                     '''
