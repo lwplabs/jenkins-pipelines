@@ -14,7 +14,6 @@ pipeline {
 
         stage("clone code"){
             steps{
-                cleanWs()
                 checkout scm
                 stash 'source'
             }
